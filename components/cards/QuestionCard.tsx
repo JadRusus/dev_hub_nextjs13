@@ -11,7 +11,7 @@ interface QuestsionProps {
     _id: string;
     name: string;
   }[];
-  auther: {
+  author: {
     _id: string;
     name: string;
     picture: string;
@@ -26,7 +26,7 @@ const QuestionCard = ({
   _id,
   title,
   tags,
-  auther,
+  author,
   upvotes,
   views,
   answers,
@@ -56,9 +56,9 @@ const QuestionCard = ({
         <Metric
           imgUrl="/assets/icons/avatar.svg"
           alt="user"
-          value={auther.name}
+          value={author.name}
           title={` - Asked  ${getTimestamp(createdAt)}`}
-          href={`/profile/${auther._id}`}
+          href={`/profile/${author._id}`}
           isAuthor
           textStyle="body-medium text-dark400_light700 "
         />

@@ -3,10 +3,8 @@ import { TagFilters } from "@/constants/filters";
 import Filter from "@/components/shared/Filter";
 import React from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import NoResult from "@/components/shared/NoResult";
 import { getAllTags } from "@/lib/actions/tag.action";
-import RenderTag from "@/components/shared/RenderTag";
 
 const Page = async () => {
   const result = await getAllTags({});

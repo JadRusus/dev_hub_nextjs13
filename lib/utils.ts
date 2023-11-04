@@ -47,7 +47,15 @@ export const formatNumberWithExtension = (number: number): string => {
   } else if (number >= 1000) {
     const thousands = (number / 1000).toFixed(1);
     return thousands + "K";
+  } else if (!number) {
+    return "0";
   } else {
     return number.toString();
   }
+};
+
+export const getJoinedDate = (date: Date) => {
+  const month = date.toLocaleString("en-US", { month: "long" });
+  const year = date.getFullYear();
+  return `${month} ${year}`;
 };

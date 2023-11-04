@@ -6,6 +6,7 @@ import { getTimestamp, formatNumberWithExtension } from "@/lib/utils";
 
 interface QuestsionProps {
   _id: string;
+  clerkId?: string | null;
   title: string;
   tags: {
     _id: string;
@@ -16,7 +17,7 @@ interface QuestsionProps {
     name: string;
     picture: string;
   };
-  upvotes: number;
+  upvotes: string[];
   views: number;
   answers: Array<object>;
   createdAt: Date;
@@ -24,6 +25,7 @@ interface QuestsionProps {
 
 const QuestionCard = ({
   _id,
+  clerkId,
   title,
   tags,
   author,
@@ -65,7 +67,7 @@ const QuestionCard = ({
         <Metric
           imgUrl="/assets/icons/like.svg"
           alt="upvotes"
-          value={formatNumberWithExtension(upvotes)}
+          value={formatNumberWithExtension(upvotes.length)}
           title=" Votes"
           textStyle="small-medium text-dark400_light800"
         />

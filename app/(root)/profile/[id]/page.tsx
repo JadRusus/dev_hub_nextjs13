@@ -34,10 +34,10 @@ const Page = async ({ params, searchParams }: URLProps) => {
               @{userInfo.user.username}
             </p>
             <div className="mt-5 flex flex-wrap items-center justify-start gap-5">
-              {userInfo.user.profolioWebsite && (
+              {userInfo.user.portfolioWebsite && (
                 <ProfileLink
                   imgUrl="/assets/icons/link.svg"
-                  href={userInfo.user.profolioWebsite}
+                  href={userInfo.user.portfolioWebsite}
                   title="Portfolio"
                 />
               )}
@@ -51,13 +51,13 @@ const Page = async ({ params, searchParams }: URLProps) => {
                 imgUrl="/assets/icons/calendar.svg"
                 title={getJoinedDate(userInfo.user.joinedAt)}
               />
-              {userInfo.user.bio && (
-                <p className="paragraph-regular text-dark400_light800 mt-8">
-                  {" "}
-                  {userInfo.user.bio}{" "}
-                </p>
-              )}
             </div>
+            {userInfo.user.bio && (
+              <p className="paragraph-regular text-dark400_light800 mt-8">
+                {" "}
+                {userInfo.user.bio}{" "}
+              </p>
+            )}
           </div>
         </div>
         <div className="flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">

@@ -35,7 +35,9 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const parseQuestionDetails = JSON.parse(questionDetails || "");
+  const parseQuestionDetails = questionDetails
+    ? JSON.parse(questionDetails)
+    : { tags: [] };
 
   const groupedTags = parseQuestionDetails.tags.map(
     (tag: { name: string }) => tag.name
@@ -54,7 +56,6 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
     setIsSubmitting(true);
-
     try {
       if (type === "edit") {
         await editQuestion({

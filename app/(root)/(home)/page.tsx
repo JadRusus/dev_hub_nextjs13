@@ -1,3 +1,4 @@
+import { SearchParamsProps } from "@/Types";
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilters from "@/components/home/HomeFilters";
 import Filter from "@/components/shared/Filter";
@@ -8,8 +9,10 @@ import { HomePageFilters } from "@/constants/filters";
 import { getQuestsions } from "@/lib/actions/question.action";
 import Link from "next/link";
 
-export default async function Home() {
-  const result = await getQuestsions({});
+export default async function Home({ searchParams }: SearchParamsProps) {
+  const result = await getQuestsions({
+    searchQuery: searchParams.q,
+  });
 
   return (
     <>

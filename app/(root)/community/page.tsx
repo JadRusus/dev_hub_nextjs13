@@ -7,9 +7,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 import UserCard from "@/components/cards/UserCard";
+import { SearchParamsProps } from "@/Types";
 
-const Page = async () => {
-  const result = await getAllUsers({});
+const Page = async ({ searchParams }: SearchParamsProps) => {
+  const result = await getAllUsers({
+    searchQuery: searchParams.q,
+  });
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">All Users</h1>

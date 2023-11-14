@@ -99,10 +99,24 @@ export async function createQuestion(params: CreateQuestionParams) {
 
     // Create an interaction record for  the user's ask_question action
 
+    await Interaction.create({
+      user: author,
+      action: "ask_question",
+      question: question._id,
+      tags: tagDocuments,
+    });
+
     // Increment author's reputation  by +5 points for each created question
 
+    await User.findByIdAndUpdate(author, {
+      $inc: { reputation: 5 },
+    });
+
     revalidatePath(path);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 }
 
 export async function getQuestionById(params: GetQuestionByIdParams) {
@@ -150,7 +164,21 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
       throw new Error("Question not found!");
     }
 
-    // TODO: increment author's reputation
+    //  increment user's reputation by +1/-1 points for upvoting/revoking an upvote to the question
+
+    await User.findByIdAndUpdate(userId, {
+      $inc: {
+        reputation: hasupVoted ? -1 : 1,
+      },
+    });
+
+    // increment author reputation by +10/-10 points for receiving an upvote/downvote on a question
+
+    await User.findByIdAndUpdate(question.author, {
+      $inc: {
+        reputation: hasupVoted ? -10 : 10,
+      },
+    });
 
     revalidatePath(path);
   } catch (error) {
@@ -186,8 +214,21 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
       throw new Error("Question not found!");
     }
 
-    // TODO: increment author's reputation
+    //  increment user's reputation by +1/-1 points for upvoting/revoking an upvote to the question
 
+    await User.findByIdAndUpdate(userId, {
+      $inc: {
+        reputation: hasdownVoted ? -1 : 1,
+      },
+    });
+
+    // increment author reputation by +10/-10 points for receiving an upvote/downvote on a question
+
+    await User.findByIdAndUpdate(question.author, {
+      $inc: {
+        reputation: hasdownVoted ? 10 : -10,
+      },
+    });
     revalidatePath(path);
   } catch (error) {
     console.log(error);

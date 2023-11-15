@@ -9,6 +9,12 @@ import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
 import { getQuestsions } from "@/lib/actions/question.action";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home | DevFlow",
+  description: "Great place to ask questions and get the best answers.",
+};
 
 export default async function Home({ searchParams }: SearchParamsProps) {
   const result = await getQuestsions({

@@ -10,12 +10,19 @@ import UserCard from "@/components/cards/UserCard";
 import { SearchParamsProps } from "@/Types";
 import Pagination from "@/components/shared/Pagination";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Community | DevFlow",
+};
+
 const Page = async ({ searchParams }: SearchParamsProps) => {
   const result = await getAllUsers({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
     page: searchParams.page ? +searchParams.page : 1,
   });
+
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">All Users</h1>

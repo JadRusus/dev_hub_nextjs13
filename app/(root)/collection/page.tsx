@@ -8,6 +8,12 @@ import { QuestionFilters } from "@/constants/filters";
 import { getSavedQuestions } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Collection | DevFlow",
+};
+
 export default async function Home({ searchParams }: SearchParamsProps) {
   const { userId } = auth();
   if (!userId) return null;

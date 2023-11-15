@@ -176,7 +176,7 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   try {
     connectToDatabase();
 
-    const { clerkId, searchQuery, filter, page = 1, pageSize = 20 } = params;
+    const { clerkId, searchQuery, filter, page = 1, pageSize = 10 } = params;
     const skipAmount = (page - 1) * pageSize;
     const query: FilterQuery<typeof Question> = searchQuery
       ? { title: { $regex: new RegExp(searchQuery, "i") } }
@@ -222,7 +222,7 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
     }
 
     const savedQuestions = user.saved;
-    const isNext = user.savedQuestions.length > pageSize;
+    const isNext = savedQuestions.length > pageSize;
 
     return { questions: savedQuestions, isNext };
   } catch (error) {

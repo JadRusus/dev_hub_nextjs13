@@ -10,6 +10,7 @@ import {
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams,
+  RecommendedParams,
 } from "./shared.types";
 import User from "@/database/user.model";
 import { revalidatePath } from "next/cache";
@@ -293,6 +294,70 @@ export async function getHotQuestions() {
     return hotQuestions;
   } catch (error) {
     console.log(error);
+    throw error;
+  }
+}
+
+export async function getRecommendedQuestions(params: RecommendedParams) {
+  try {
+    await connectToDatabase();
+
+    const { userId, page = 1, pageSize = 20, searchQuery } = params;
+    const user = await User.findOne({ clerkId: userId });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const skipAmount = (page - 1) * pageSize;
+
+    const userInteraction = await Interaction.find({ user: user._id })
+      .populate("tags")
+      .exec();
+
+    const userTags = userInteraction.reduce((tags, interaction) => {
+      if (interaction.tags) {
+        tags = tags.concat(interaction.tags);
+      }
+      return tags;
+    }, []);
+
+    const distinctUserTagId = [...new Set(userTags.map((tag: any) => tag._id))];
+
+    const query: FilterQuery<typeof Question> = {
+      $and: [
+        { tags: { $in: distinctUserTagId } },
+        { author: { $ne: user._id } },
+      ],
+    };
+
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: searchQuery, $options: "i" } },
+        { content: { $regex: searchQuery, $options: "i" } },
+      ];
+    }
+
+    const totalQuestions = await Question.countDocuments(query);
+
+    const recommededQuestions = await Question.find(query)
+      .populate({
+        path: "tags",
+        model: Tag,
+      })
+      .populate({
+        path: "author",
+        model: User,
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
+
+    const isNext = totalQuestions > skipAmount + recommededQuestions.length;
+
+    return {
+      questions: recommededQuestions,
+      isNext,
+    };
+  } catch (error) {
+    console.log("Error getting recommended questions:" + error);
     throw error;
   }
 }

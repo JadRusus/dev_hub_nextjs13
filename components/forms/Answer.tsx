@@ -83,7 +83,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         editor.setContent(formattedAnswer);
       }
 
-      // TODO Toast...
+      // TODO Toast..
     } catch (error) {
       console.log(error);
       throw error;

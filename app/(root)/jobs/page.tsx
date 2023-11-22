@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 const Page = () => {
   return (
     <>
-      <NoResult
+      <NoResults
         title="Coming Soon!"
         description="We are working on implementing this feature. Stay tuned!"
         link="/"

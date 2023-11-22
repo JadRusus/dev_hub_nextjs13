@@ -17,6 +17,12 @@ const nextConfig = {
       },
     ],
   },
+  functions: {
+    "api/chatgpt": {
+      memory: 1024,
+      maxDuration: 40,
+    },
+  },
 };
 
 module.exports = nextConfig;

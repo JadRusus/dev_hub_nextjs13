@@ -12,6 +12,11 @@ import Stats from "@/components/shared/Stats";
 import QuestionTab from "@/components/shared/QuestionTab";
 import AnswersTab from "@/components/shared/AnswersTab";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Profile | DevFlow",
+};
 const Page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
   const userInfo = await getUserInfo({ userId: params.id });

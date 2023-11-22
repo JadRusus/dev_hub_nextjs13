@@ -10,7 +10,7 @@ const Page = () => {
     <>
       <NoResult
         title="Coming Soon!"
-        description="We are working on implementing this feature. Stay tuned!"
+        description="We are working on implementing this feature. Stay tuned! this is coming soon."
         link="/"
         linkTitle="Back to questions"
       />
